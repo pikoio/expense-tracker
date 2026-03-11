@@ -1,0 +1,8 @@
+export const TRANSACTION_TITLE_LIMITS = {
+    MAX_LENGTH: 20,
+    MIN_LENGTH: 3,
+}
+export const TRANSACTION_AMOUNT_LIMITS = {
+    MAX_AMOUNT: 9999,
+    MIN_AMOUNT: 0.1,
+}
