@@ -1,7 +1,7 @@
 <script setup>
 
 import FormSection from "@/components/base/FormSection.vue";
-import ListSection from "@/components/base/ListSection.vue";
+import MenuSection from "@/components/base/MenuSection.vue";
 import {provide, ref} from "vue";
 
 const transactions = ref([
@@ -14,7 +14,7 @@ const transactions = ref([
   },
   {
     id: 2,
-    title: "salary from work",
+    title: "Salary from work",
     amount: 2000,
     category: 'Work',
     type: "Income"
@@ -22,8 +22,8 @@ const transactions = ref([
 ])
 
 const transactionTypes = ref(["Income", "Expense"])
-const incomeCategories = ref(["Work", "Family", "Other"])
-const expenseCategories = ref(["Grocery", "Hobby", "Other"])
+const incomeCategories = ref(["Work", "Family", "Other income"])
+const expenseCategories = ref(["Grocery", "Hobby", "Other expense"])
 
 provide("transactions", transactions)
 provide("transactionTypes", transactionTypes)
@@ -33,15 +33,17 @@ provide("expenseCategories", expenseCategories)
 const addTransaction = (newTransaction) => {
   transactions.value.push(newTransaction)
 }
-
-
+const deleteTransaction = (transactionId) => {
+  if(!transactionId) return
+  transactions.value = transactions.value.filter((t) => t.id !== transactionId)
+}
 </script>
 
 <template>
 
   <div class="app-container">
     <FormSection @add-transaction="addTransaction"/>
-    <ListSection/>
+    <MenuSection @delete-transaction="deleteTransaction"/>
   </div>
 
 </template>

@@ -76,8 +76,6 @@ const addTransaction = () => {
       </select>
       <button :disabled="!isFormValid" type="submit" class="submit-btn">Add transaction</button>
     </form>
-    {{tempTransaction}}
-    {{isFormValid}}
   </div>
 </template>
 
@@ -147,6 +145,10 @@ const addTransaction = () => {
   border: none;
   background-color: #6b8091;
   border-radius: 0.5rem;
+}
+.form-section .submit-btn:disabled{
+  background-color: #90979e;
+  cursor: not-allowed;
 }
 
 </style>
