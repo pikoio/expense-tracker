@@ -1,8 +1,8 @@
 <script setup>
-import {computed, inject, ref} from "vue";
-import { TRANSACTION_AMOUNT_LIMITS, TRANSACTION_TITLE_LIMITS } from "@/constants.js";
-const emit = defineEmits(["add-transaction"])
+import {computed, inject, ref, watch} from "vue";
+import {TRANSACTION_AMOUNT_LIMITS, TRANSACTION_TITLE_LIMITS} from "@/constants.js";
 
+const emit = defineEmits(["add-transaction"])
 
 const transactionTypes = inject("transactionTypes");
 const incomeCategories = inject("incomeCategories");
@@ -38,17 +38,24 @@ const isFormValid = computed(() => {
 })
 
 const addTransaction = () => {
-  if(!isFormValid.value) { return }
+  if (!isFormValid.value) {
+    return
+  }
   const newTransaction = {
     id: crypto.randomUUID(),
     title: tempTransaction.value.title,
     amount: tempTransaction.value.amount,
     type: tempTransaction.value.type,
     category: tempTransaction.value.category,
+    date: new Date().toISOString()
   }
   emit("add-transaction", newTransaction)
   tempTransaction.value = {...defaultTransactionStructure.value}
 }
+
+watch(() => tempTransaction.value.type, () => {
+  tempTransaction.value.category = ""
+})
 </script>
 
 <template>
@@ -58,7 +65,8 @@ const addTransaction = () => {
       <label class="input-label">Title</label>
       <input v-model="tempTransaction.title" placeholder="Enter transaction title..." class="input-text" type="text">
       <label class="input-label">Amount</label>
-      <input v-model="tempTransaction.amount" placeholder="Enter transaction amount..." class="input-text" type="number">
+      <input v-model.number="tempTransaction.amount" placeholder="Enter transaction amount..." class="input-text"
+             type="number">
       <div class="transaction-type-row">
         <label v-for="type in transactionTypes">
           <input type="radio" :value="type" v-model="tempTransaction.type">
@@ -68,11 +76,11 @@ const addTransaction = () => {
       <label class="input-label">Category</label>
       <select class="select-input" v-show="tempTransaction.type === 'Income'" v-model="tempTransaction.category">
         <option disabled value="">Please select category...</option>
-        <option v-for="category in incomeCategories" :key="category.index" :value="category">{{ category }}</option>
+        <option v-for="category in incomeCategories" :key="category" :value="category">{{ category }}</option>
       </select>
       <select class="select-input" v-show="tempTransaction.type === 'Expense'" v-model="tempTransaction.category">
         <option disabled value="">Please select category...</option>
-        <option v-for="category in expenseCategories" :key="category.index" :value="category">{{ category }}</option>
+        <option v-for="category in expenseCategories" :key="category" :value="category">{{ category }}</option>
       </select>
       <button :disabled="!isFormValid" type="submit" class="submit-btn">Add transaction</button>
     </form>
@@ -87,7 +95,6 @@ const addTransaction = () => {
   padding: 2rem;
   display: flex;
   flex-direction: column;
-
 }
 
 .form-section .section-title {
@@ -146,7 +153,8 @@ const addTransaction = () => {
   background-color: #6b8091;
   border-radius: 0.5rem;
 }
-.form-section .submit-btn:disabled{
+
+.form-section .submit-btn:disabled {
   background-color: #90979e;
   cursor: not-allowed;
 }

@@ -1,23 +1,24 @@
 <script setup>
-
 import FormSection from "@/components/base/FormSection.vue";
 import MenuSection from "@/components/base/MenuSection.vue";
-import {provide, ref} from "vue";
+import {provide, ref, watch} from "vue";
 
 const transactions = ref([
   {
-    id: 1,
+    id: "16dc393d-98w1-4e2e-bhe4-f8f7946fb66e",
     title: "5 apples from grocery",
     amount: 234,
     category: 'Grocery',
-    type: "Expense"
+    type: "Expense",
+    date: new Date(),
   },
   {
-    id: 2,
+    id: "78dc343d-28w1-4e2e-bhr4-f8f7946fb34e",
     title: "Salary from work",
     amount: 2000,
     category: 'Work',
-    type: "Income"
+    type: "Income",
+    date: new Date(),
   }
 ])
 
@@ -34,18 +35,26 @@ const addTransaction = (newTransaction) => {
   transactions.value.push(newTransaction)
 }
 const deleteTransaction = (transactionId) => {
-  if(!transactionId) return
+  if (!transactionId) return
   transactions.value = transactions.value.filter((t) => t.id !== transactionId)
 }
+
+watch(transactions, (newVal) => {
+  localStorage.setItem("transactions", JSON.stringify(newVal))
+}, { deep: true })
+
+const saved = localStorage.getItem("transactions")
+
+if (saved) transactions.value = JSON.parse(saved)
+
+
 </script>
 
 <template>
-
   <div class="app-container">
     <FormSection @add-transaction="addTransaction"/>
     <MenuSection @delete-transaction="deleteTransaction"/>
   </div>
-
 </template>
 
 <style scoped>

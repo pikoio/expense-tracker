@@ -1,6 +1,17 @@
 <script setup>
+  import {computed} from "vue";
+
   const props = defineProps(["transaction"])
   const emit = defineEmits(["delete-transaction"])
+
+  const formattedDate = computed(() => {
+    const date = new Date(props.transaction.date)
+    return date.toLocaleDateString() + " "
+        + date.getUTCHours() + ":"
+        + String(date.getUTCMinutes()).padStart(2, "0")
+  })
+
+
 </script>
 
 <template>
@@ -12,6 +23,7 @@
         </div>
         <div class="row-2">
           <p>{{ transaction.category }}</p>
+          <p>{{ formattedDate }}</p>
         </div>
       </div>
       <div class="clm-2">
@@ -40,7 +52,6 @@
   padding: 0.8rem 0.8rem 0.8rem 1.5rem;
 }
 .transaction-item .info .clm-1{
-
   width: 65%;
   display: flex;
   flex-direction: column;
@@ -50,6 +61,7 @@
   display: flex;
   align-items: center;
   font-size: 1.1rem;
+
 }
 .transaction-item .info .clm-1 .row-2{
   display: flex;
@@ -57,6 +69,7 @@
   font-size: 0.9rem;
   color: #434343;
   height: 40%;
+  gap: 1rem;
 }
 .transaction-item .info .clm-2{
   width: 25%;

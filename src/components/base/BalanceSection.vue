@@ -37,66 +37,69 @@ const totalBalance = computed(() => {
         <p>-{{ totalExpense }}zl</p>
       </div>
     </div>
-
   </div>
 </template>
 
 <style scoped>
-.balance-section{
+.balance-section {
   width: 45%;
   padding: 2rem;
   display: flex;
   flex-direction: column;
 }
+
 .balance-section .section-title {
   font-size: 1.5rem;
   font-weight: 600;
   color: #434343;
   margin-bottom: 1rem;
 }
-.balance-section .total-balance {
 
+.balance-section .total-balance {
   height: 6rem;
   display: flex;
   align-items: baseline;
   color: #434343;
   gap: 0.2rem
 }
+
 .balance-section .total-balance .amount {
   font-size: 4rem;
 }
+
 .balance-section .total-balance .currency {
   font-size: 2.5rem;
 }
-.balance-section .calculations{
 
+.balance-section .calculations {
   display: flex;
   height: 3rem;
   font-size: 1.3rem;
   color: #434343;
 }
-.balance-section .calculations .income{
 
+.balance-section .calculations .income {
   width: 50%;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-.balance-section .calculations .income .indicator{
+
+.balance-section .calculations .income .indicator {
   height: 1rem;
   width: 1rem;
   border-radius: 50%;
   background-color: #88b58e;
 }
 
-.balance-section .calculations .expense{
-
+.balance-section .calculations .expense {
   width: 50%;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-.balance-section .calculations .expense .indicator{
+
+.balance-section .calculations .expense .indicator {
   height: 1rem;
   width: 1rem;
   border-radius: 50%;

@@ -11,12 +11,13 @@ const emit = defineEmits(["delete-transaction"]);
 const filterType = ref("All")
 const filterCategory = ref("All")
 
-const categoriesMap = {
-  Income: incomeCategories.value,
-  Expense: expenseCategories.value,
-}
+const categoriesMap = computed(() => {
+  if(filterType.value === "Income") return incomeCategories.value
+  if(filterType.value === "Expense") return expenseCategories.value
+  return []
+})
 const currentCategories = computed(() => {
-  return categoriesMap[filterType.value] || [];
+  return categoriesMap
 })
 
 const filteredTransactionsByType = computed(() => {
