@@ -10,7 +10,7 @@ const transactions = ref([
     amount: 234,
     category: 'Grocery',
     type: "Expense",
-    date: new Date(),
+    date: new Date().toISOString(),
   },
   {
     id: "78dc343d-28w1-4e2e-bhr4-f8f7946fb34e",
@@ -18,7 +18,7 @@ const transactions = ref([
     amount: 2000,
     category: 'Work',
     type: "Income",
-    date: new Date(),
+    date: new Date().toISOString(),
   }
 ])
 
@@ -39,13 +39,13 @@ const deleteTransaction = (transactionId) => {
   transactions.value = transactions.value.filter((t) => t.id !== transactionId)
 }
 
-watch(transactions, (newVal) => {
-  localStorage.setItem("transactions", JSON.stringify(newVal))
-}, { deep: true })
-
-const saved = localStorage.getItem("transactions")
-
-if (saved) transactions.value = JSON.parse(saved)
+// watch(transactions, (newVal) => {
+//   localStorage.setItem("transactions", JSON.stringify(newVal))
+// }, { deep: true })
+//
+// const saved = localStorage.getItem("transactions")
+//
+// if (saved) transactions.value = JSON.parse(saved)
 
 
 </script>

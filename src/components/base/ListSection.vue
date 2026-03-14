@@ -10,25 +10,40 @@ const emit = defineEmits(["delete-transaction"]);
 
 const filterType = ref("All")
 const filterCategory = ref("All")
+const sortBy = ref("Newest")
 
-const categoriesMap = computed(() => {
-  if(filterType.value === "Income") return incomeCategories.value
-  if(filterType.value === "Expense") return expenseCategories.value
-  return []
-})
+const categoriesMap = {
+  Income: incomeCategories.value,
+  Expense: expenseCategories.value,
+}
 const currentCategories = computed(() => {
-  return categoriesMap
+  return categoriesMap[filterType.value];
 })
-
+ // FILTER TRANSACTIONS BY TYPE
 const filteredTransactionsByType = computed(() => {
   if(filterType.value === "All"){ return transactions.value }
   return transactions.value.filter(t => t.type === filterType.value)
 })
+ // FILTER TRANSACTIONS BY CATEGORY
 const filteredTransactionsByCategory = computed(() => {
   if(filterCategory.value === "All"){ return filteredTransactionsByType.value}
   return filteredTransactionsByType.value.filter(t => t.category === filterCategory.value)
 })
-
+const sortedTransactions = computed(() => {
+  const list = [...filteredTransactionsByCategory.value]
+  if(sortBy.value === "Newest"){
+    return list.sort((a, b) => new Date(b.date) - new Date(a.date))
+  }
+  if(sortBy.value === "Oldest"){
+    return list.sort((a, b) => new Date(a.date) - new Date(b.date))
+  }
+  if(sortBy.value === "Highest"){
+    return list.sort((a, b) => b.amount - a.amount)
+  }
+  if(sortBy.value === "Lowest"){
+    return list.sort((a, b) => a.amount - b.amount)
+  }
+})
 const deleteTransaction = (transactionId) => {
   emit("delete-transaction", transactionId)
 }
@@ -43,12 +58,16 @@ watch(filterType,() =>{
   <div class="list-section">
     <div class="row-1">
       <p class="section-title">Transactions</p>
-
       <select v-if="filterType !== 'All'" v-model="filterCategory" class="filter-select">
         <option value="All">All</option>
         <option v-for="category in currentCategories" :key="category" :value="category">{{ category }}</option>
       </select>
-
+      <select v-if="filterType !== 'All'" v-model="sortBy" class="filter-select">
+        <option value="Newest">Newest</option>
+        <option value="Oldest">Oldest</option>
+        <option value="Highest">Highest</option>
+        <option value="Lowest">Lowest</option>
+      </select>
       <select class="filter-select" v-model="filterType">
         <option value="All">All</option>
         <option v-for="type in transactionTypes" :value="type" :key="type">{{ type }}</option>
@@ -56,7 +75,7 @@ watch(filterType,() =>{
     </div>
     <div class="transactions-wrapper">
       <TransactionItem
-          v-for="transaction in filteredTransactionsByCategory"
+          v-for="transaction in sortedTransactions"
           :key="transaction.id" :transaction="transaction"
           @delete-transaction="deleteTransaction(transaction.id)"/>
       <p v-if="filteredTransactionsByCategory.length === 0" class="no-transactions-err">There are no transactions...</p>
