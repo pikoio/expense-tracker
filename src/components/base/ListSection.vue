@@ -7,6 +7,7 @@ const expenseCategories = inject("expenseCategories");
 const transactionTypes = inject("transactionTypes");
 
 const emit = defineEmits(["delete-transaction"]);
+const sortingOptions = ["Newest", "Oldest", "Highest", "Lowest"]
 
 const filterType = ref("All")
 const filterCategory = ref("All")
@@ -60,17 +61,34 @@ watch(filterType,() =>{
       <p class="section-title">Transactions</p>
       <select v-if="filterType !== 'All'" v-model="filterCategory" class="filter-select">
         <option value="All">All</option>
-        <option v-for="category in currentCategories" :key="category" :value="category">{{ category }}</option>
+        <option
+            v-for="category in currentCategories"
+            :key="category"
+            :value="category">
+          {{ category }}
+        </option>
       </select>
-      <select v-if="filterType !== 'All'" v-model="sortBy" class="filter-select">
-        <option value="Newest">Newest</option>
-        <option value="Oldest">Oldest</option>
-        <option value="Highest">Highest</option>
-        <option value="Lowest">Lowest</option>
+      <select
+          v-if="filterType !== 'All'"
+          v-model="sortBy"
+          class="filter-select">
+        <option
+            v-for="option in sortingOptions"
+            :value="option"
+            :key="option">
+          {{ option }}
+        </option>
       </select>
-      <select class="filter-select" v-model="filterType">
+      <select
+          class="filter-select"
+          v-model="filterType">
         <option value="All">All</option>
-        <option v-for="type in transactionTypes" :value="type" :key="type">{{ type }}</option>
+        <option
+            v-for="type in transactionTypes"
+            :value="type"
+            :key="type">
+          {{ type }}
+        </option>
       </select>
     </div>
     <div class="transactions-wrapper">

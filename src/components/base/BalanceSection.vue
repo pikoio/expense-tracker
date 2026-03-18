@@ -18,6 +18,14 @@ const totalExpense = computed(() => {
 const totalBalance = computed(() => {
   return totalIncome.value - totalExpense.value
 })
+
+const user = {
+  id: 5,
+  name: "Valera",
+  age: 34,
+  skills: ["JS", "PHP"]
+}
+
 </script>
 
 <template>
@@ -37,6 +45,8 @@ const totalBalance = computed(() => {
         <p>-{{ totalExpense }}zl</p>
       </div>
     </div>
+    <div v-bind="transactions"></div>
+
   </div>
 </template>
 
@@ -60,7 +70,11 @@ const totalBalance = computed(() => {
   display: flex;
   align-items: baseline;
   color: #434343;
-  gap: 0.2rem
+  gap: 0.2rem;
+  background-color: #fdfdfd;
+  border-radius: 1rem;
+  padding-left: 1rem;
+
 }
 
 .balance-section .total-balance .amount {
@@ -73,9 +87,13 @@ const totalBalance = computed(() => {
 
 .balance-section .calculations {
   display: flex;
-  height: 3rem;
+  height: 4rem;
   font-size: 1.3rem;
   color: #434343;
+  background-color: #fbfbfb;
+  margin-top: 1rem;
+  border-radius: 1rem;
+  padding-left: 1rem;
 }
 
 .balance-section .calculations .income {

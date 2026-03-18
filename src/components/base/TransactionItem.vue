@@ -10,8 +10,6 @@
         + date.getUTCHours() + ":"
         + String(date.getUTCMinutes()).padStart(2, "0")
   })
-
-
 </script>
 
 <template>

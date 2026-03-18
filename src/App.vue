@@ -39,13 +39,13 @@ const deleteTransaction = (transactionId) => {
   transactions.value = transactions.value.filter((t) => t.id !== transactionId)
 }
 
-// watch(transactions, (newVal) => {
-//   localStorage.setItem("transactions", JSON.stringify(newVal))
-// }, { deep: true })
-//
-// const saved = localStorage.getItem("transactions")
-//
-// if (saved) transactions.value = JSON.parse(saved)
+watch(transactions, (newVal) => {
+  localStorage.setItem("transactions", JSON.stringify(newVal))
+}, { deep: true })
+
+const saved = localStorage.getItem("transactions")
+
+if (saved) transactions.value = JSON.parse(saved)
 
 
 </script>
